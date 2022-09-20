@@ -72,6 +72,8 @@ if __name__ == '__main__':
 		data_folder="data/tr_data_mnist_001",
 		verbose=False,
 		rm_data_folder_and_restart_all_training=False,
+		nb_workers=2,
+		pin_memory=True,
 	)
 	logging.info(df)
 
