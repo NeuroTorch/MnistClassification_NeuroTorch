@@ -25,6 +25,9 @@ if __name__ == '__main__':
 				# "ImgToSpikes",
 				"const",
 				"spylif",
+				"spyalif",
+				"alif",
+				"lif",
 			],
 			"n_steps"                 : [
 				8,
@@ -45,18 +48,11 @@ if __name__ == '__main__':
 				# 32
 			],
 			# "spike_func"              : [SpikeFuncType.FastSigmoid, ],
-			"input_learning_type"     : [
-				nt.LearningType.NONE,
-				# LearningType.BPTT,
-			],
-			"input_layer_type"        : [
-				# LayerType.LIF,
-				nt.LayerType.SpyLIF,
-			],
 			"hidden_layer_type"       : [
 				nt.LayerType.LIF,
 				# nt.LayerType.ALIF,
 				# nt.LayerType.SpyLIF,
+				# nt.LayerType.SpyALIF,
 			],
 			"readout_layer_type"      : [
 				# nt.LayerType.LI,
