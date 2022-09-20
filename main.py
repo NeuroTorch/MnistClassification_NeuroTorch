@@ -9,9 +9,8 @@ from results_generation import train_with_params
 from neurotorch.modules.layers import LayerType, LearningType
 
 if __name__ == '__main__':
-	logs_file_setup(__file__)
+	logs_file_setup(__file__, add_stdout=False)
 	log_device_setup(deepLib=DeepLib.Pytorch)
-	torch.autograd.set_detect_anomaly(True)
 	if torch.cuda.is_available():
 		torch.cuda.set_per_process_memory_fraction(0.8)
 	results = train_with_params(
@@ -29,11 +28,11 @@ if __name__ == '__main__':
 			"readout_layer_type": LayerType.SpyLI,
 		},
 		n_iterations=30,
-		batch_size=32,
+		batch_size=1024,
 		verbose=True,
 		show_training=False,
 		force_overwrite=False,
-		data_folder="tr_test",
+		data_folder="data/tr_test",
 	)
 	pprint.pprint(results, indent=4)
 	results["history"].plot(show=True)
