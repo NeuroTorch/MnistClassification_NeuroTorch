@@ -44,6 +44,9 @@ def get_training_params_space() -> Dict[str, Any]:
 			# "ImgToSpikes",
 			"const",
 			"spylif",
+			"spyalif",
+			"alif",
+			"lif",
 		],
 		"n_steps"                 : [
 			8,
@@ -64,14 +67,6 @@ def get_training_params_space() -> Dict[str, Any]:
 			32
 		],
 		"spike_func"              : [SpikeFuncType.FastSigmoid, ],
-		"input_learning_type"     : [
-			LearningType.NONE,
-			LearningType.BPTT,
-		],
-		"input_layer_type"        : [
-			LayerType.LIF,
-			LayerType.SpyLIF,
-		],
 		"hidden_layer_type"       : [
 			LayerType.LIF,
 			LayerType.ALIF,
@@ -96,8 +91,6 @@ def set_default_params(params: Dict[str, Any], **kwargs) -> Dict[str, Any]:
 	params.setdefault("input_transform", "spylif")
 	params.setdefault("n_steps", 8)
 	params.setdefault("n_hidden_neurons", 128)
-	params.setdefault("input_learning_type", nt.LearningType.NONE)
-	params.setdefault("input_layer_type", nt.LayerType.SpyLIF)
 	params.setdefault("hidden_layer_type", nt.LayerType.LIF)
 	params.setdefault("readout_layer_type", nt.LayerType.SpyLI)
 	params.setdefault("use_recurrent_connection", False)
@@ -116,6 +109,8 @@ def train_with_params(
 		show_training: bool = False,
 		force_overwrite: bool = False,
 		seed: int = 0,
+		nb_workers=0,
+		pin_memory: bool = True,
 ):
 	params = set_default_params(params, seed=seed)
 	set_seed(seed)
@@ -131,7 +126,8 @@ def train_with_params(
 		dataset_id=params["dataset_id"],
 		batch_size=batch_size,
 		train_val_split_ratio=params.get("train_val_split_ratio", 0.85),
-		nb_workers=psutil.cpu_count(logical=False),
+		nb_workers=nb_workers,
+		pin_memory=pin_memory,
 	)
 	n_hidden_neurons = params["n_hidden_neurons"]
 	if not isinstance(n_hidden_neurons, Iterable):
@@ -146,7 +142,7 @@ def train_with_params(
 			**params
 		)
 		for i, n in enumerate(n_hidden_neurons[1:])
-	] if len(n_hidden_neurons) > 1 else []
+	]
 	input_params = deepcopy(params)
 	input_params.pop("forward_weights", None)
 	input_params.pop("use_recurrent_connection", None)
@@ -154,23 +150,13 @@ def train_with_params(
 	network = SequentialModel(
 		input_transform=get_transform_from_str(params["input_transform"], **params, n_units=n_features),
 		layers=[
-			LayerType2Layer[params["input_layer_type"]](
-				input_size=Dimension(n_features, DimensionProperty.NONE),
-				# spike_func=SpikeFuncType2Func[params["spike_func"]],
-				output_size=n_hidden_neurons[0],
-				forward_weights=torch.eye(n_features),
-				use_recurrent_connection=False,
-				learning_type=input_params["input_learning_type"],
-				**input_params
-			),
 			*hidden_layers,
 			LayerType2Layer[params["readout_layer_type"]](output_size=10),
 		],
 		name=f"{params['dataset_id'].name}_network_{checkpoints_name}",
 		checkpoint_folder=checkpoint_folder,
 		foresight_time_steps=params["foresight_time_steps"],
-	)
-	network.build()
+	).build()
 	if verbose:
 		logging.info(f"\nNetwork:\n{network}")
 	checkpoint_manager = CheckpointManager(checkpoint_folder, metric="val_accuracy", minimise_metric=False)
