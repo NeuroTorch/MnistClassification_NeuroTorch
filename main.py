@@ -17,13 +17,11 @@ if __name__ == '__main__':
 		{
 			"dataset_id": DatasetId.MNIST,
 			"use_recurrent_connection": False,
-			"input_transform": "const",
+			"input_transform": "spyalif",
 			'n_hidden_neurons': 128,
 			"n_steps": 8,
 			"train_val_split_ratio": 0.95,
 			# "spike_func": SpikeFuncType.FastSigmoid,
-			"input_layer_type": LayerType.SpyLIF,
-			"input_learning_type": LearningType.NONE,
 			"hidden_layer_type": LayerType.LIF,
 			"readout_layer_type": LayerType.SpyLI,
 		},
@@ -33,6 +31,8 @@ if __name__ == '__main__':
 		show_training=False,
 		force_overwrite=False,
 		data_folder="data/tr_test",
+		nb_workers=2,
+		pin_memory=True,
 	)
 	pprint.pprint(results, indent=4)
 	results["history"].plot(show=True)
