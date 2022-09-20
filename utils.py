@@ -1,5 +1,6 @@
 import numpy as np
-from neurotorch.transforms.spikes_encoders import SpyLIFEncoder
+import neurotorch as nt
+from neurotorch.transforms.spikes_encoders import SpyLIFEncoder, LIFEncoder, ALIFEncoder, SpikesEncoder
 
 
 def get_transform_from_str(transform_name: str, **kwargs):
@@ -50,6 +51,16 @@ def get_transform_from_str(transform_name: str, **kwargs):
 		"spylif"           : Compose(
 			[torch.nn.Flatten(start_dim=2), SpyLIFEncoder(n_steps=kwargs["n_steps"], n_units=kwargs["n_units"])]
 		),
+		"lif": Compose(
+			[torch.nn.Flatten(start_dim=2), LIFEncoder(n_steps=kwargs["n_steps"], n_units=kwargs["n_units"])]
+		),
+		"alif": Compose(
+			[torch.nn.Flatten(start_dim=2), ALIFEncoder(n_steps=kwargs["n_steps"], n_units=kwargs["n_units"])]
+		),
+		"spyalif": Compose([
+			torch.nn.Flatten(start_dim=2),
+			SpikesEncoder(n_steps=kwargs["n_steps"], n_units=kwargs["n_units"], spikes_layer_type=nt.SpyALIFLayer)
+		]),
 	}
 	name_to_transform = {k.lower(): v for k, v in name_to_transform.items()}
 	return name_to_transform[transform_name.lower()]
