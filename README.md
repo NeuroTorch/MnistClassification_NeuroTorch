@@ -1,6 +1,9 @@
 # MNIST Application.
 
 
+#### This work is currently in progress. However, the code is functional and can be used to train a model on MNIST dataset.
+
+
 In this application we are using NeuroTorch to classify the MNIST dataset or the Fashion-MNIST dataset. In the folder 
 you can find the [main script](main.py) which contains a simple run of NeuroTorch for image classification.
 
