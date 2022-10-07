@@ -7,6 +7,12 @@
 In this application we are using NeuroTorch to classify the MNIST dataset or the Fashion-MNIST dataset. In the folder 
 you can find the [main script](main.py) which contains a simple run of NeuroTorch for image classification.
 
+Here is an exemple of the MNIST dataset:
+<p align="center"> <img width="1200" height="500" src="images/mnist/MnistExamples.png"> </p>
+
+And an exemple of the Fashion-MNIST dataset:
+<p align="center"> <img width="1200" height="500" src="images/mnist/fashion-mnist-sprite.png"> </p>
+
 For the one who want more statistical information about the dynamics of NeuroTorch on classification task, you
 can run the [results generation script](results_generation.py) which will generate a file with the results of the
 trainings and the testings with different models and different parameters. Note that this script can take a while to
