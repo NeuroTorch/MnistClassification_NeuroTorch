@@ -17,7 +17,7 @@ if __name__ == '__main__':
 		training_params={
 			"dataset_id"              : [
 				DatasetId.MNIST,
-				# DatasetId.FASHION_MNIST
+				DatasetId.FASHION_MNIST
 			],
 			"input_transform"         : [
 				# "linear",
@@ -31,36 +31,35 @@ if __name__ == '__main__':
 			],
 			"n_steps"                 : [
 				8,
-				# 16,
-				# 32,
-				# 64,
-				# 100,
-				# 1_000
+				16,
+				32,
+				64,
+				100,
+				1_000
 			],
 			"n_hidden_neurons"        : [
-				# 16,
-				# 32,
-				# 64,
-				# [64, 64],
+				16,
+				64,
+				[64, 64],
 				128,
-				# 256,
-				# [32, 32],
-				# 32
+				256,
+				[32, 32],
+				32
 			],
 			# "spike_func"              : [SpikeFuncType.FastSigmoid, ],
 			"hidden_layer_type"       : [
 				nt.LayerType.LIF,
-				# nt.LayerType.ALIF,
-				# nt.LayerType.SpyLIF,
-				# nt.LayerType.SpyALIF,
+				nt.LayerType.ALIF,
+				nt.LayerType.SpyLIF,
+				nt.LayerType.SpyALIF,
 			],
 			"readout_layer_type"      : [
-				# nt.LayerType.LI,
+				nt.LayerType.LI,
 				nt.LayerType.SpyLI,
 			],
 			"use_recurrent_connection": [
 				False,
-				# True
+				True
 			],
 			"learn_beta"              : [
 				# True,
