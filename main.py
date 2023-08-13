@@ -16,7 +16,7 @@ if __name__ == '__main__':
     results = train_with_params(
         {
             "dataset_id": DatasetId.MNIST,
-            "use_recurrent_connection": False,
+            "use_recurrent_connection": True,
             "input_transform": "spyalif",
             'n_hidden_neurons': 128,
             "n_steps": 8,
@@ -29,7 +29,7 @@ if __name__ == '__main__':
         batch_size=1024,
         verbose=True,
         show_training=False,
-        force_overwrite=False,
+        force_overwrite=True,
         data_folder="data/tr_test",
         nb_workers=2,
         pin_memory=True,
